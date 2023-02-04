@@ -16,6 +16,12 @@ public class GameDefine
     public enum ItemParamType
     {
         GENDER, // ê´ï 
+        CHARACTER, //
+        INTROVERTED, // Ç»Ç¢Ç±
+        CLIMATE, // kiko
+        RELATIONSHIP_WITH_TREE,
+
+
     }
 
     // DeepLÇÃAPIKEY

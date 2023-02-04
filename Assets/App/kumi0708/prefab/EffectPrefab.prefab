@@ -77,9 +77,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RandmFlag: 0
   effec: 0
-  EffectButton: 0
   lifeTime: 10
   time: 10
+  EffectButton: 0
 --- !u!1001 &8193419678682624831
 PrefabInstance:
   m_ObjectHideFlags: 0
