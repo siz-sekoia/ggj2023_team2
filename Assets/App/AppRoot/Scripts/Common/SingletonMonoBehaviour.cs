@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace App
@@ -27,6 +28,16 @@ namespace App
                     //発見した場合は初期化
                     else
                         _instance.InitIfNeeded();
+                }
+                else
+                {
+                    var types = FindObjectsOfType(typeof(T));
+                    for (var i = 0; i < types.Length; i++)
+                        if (types[i] != _instance)
+                        {
+                            Destroy(types[i].GameObject());
+                            Destroy(types[i]);
+                        }
                 }
 
                 return _instance;
@@ -71,6 +82,7 @@ namespace App
         /// </summary>
         protected virtual void Init()
         {
+            DontDestroyOnLoad(this);
         }
 
         //sealed overrideするためにvirtualで作成
