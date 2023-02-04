@@ -47,5 +47,21 @@ namespace App
             // 物体を移動する
             transform.position += vec;
         }
+
+        /// <summary>
+        /// ラインの当たり判定処理
+        /// </summary>
+        /// <param name="collision"></param>
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            ItemEntity item = collision.gameObject.GetComponent<ItemEntity>();
+
+            // アイテムじゃなければ無視
+            if (item == null)
+                return;
+
+            // アイテム獲得処理
+            item.ItemGet();
+        }
     }
 }
