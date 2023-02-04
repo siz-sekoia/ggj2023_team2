@@ -1,10 +1,12 @@
-using UniRx;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 
 namespace App
 {
     public class PointController : MonoBehaviour
     {
+        [SerializeField] private UILineRenderer _uiLineRenderer;
+
         // 速度
         public float Speed;
 
@@ -13,13 +15,6 @@ namespace App
 
         private float _angle = -90f;
 
-        public Subject<Unit> OnAddPointObserver { get; } = new();
-
-        public void AddPoint()
-        {
-            OnAddPointObserver.OnNext(Unit.Default);
-        }
-        
         // Start is called before the first frame update
         public void AddVec(float angle = 0f)
         {
