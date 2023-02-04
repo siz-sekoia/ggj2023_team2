@@ -18,7 +18,6 @@ namespace App
 
         [SerializeField] private Button _debugResultButton;
 
-        [SerializeField] private float _maxPlayTime = 0.0f;
         [SerializeField] private ItemGenerator _itemGenerator;
 
         public float ForceAngle = -1f;
@@ -55,9 +54,6 @@ namespace App
 
         public bool IsWaitClick = true;
 
-        private float _gamePlayTimer = 0.0f;
-        private float _checkPhaseTime = 0.0f;
-
         private int _currentPhase = 0;
 
         private void Start()
@@ -76,9 +72,6 @@ namespace App
 
             // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
-
-            // 次のフェーズ時間設定
-            _checkPhaseTime = _maxPlayTime / 4;
         }
 
         private void SetEvent()
@@ -226,10 +219,6 @@ namespace App
                     _moveCameraController.SetTarget(_nowSelectLine.Point.transform);
                 }
             }
-
-            _gamePlayTimer += Time.deltaTime;
-            PhaseCheck();
-
             // _moveCameraController.SetTarget();
         }
 
@@ -237,7 +226,7 @@ namespace App
         {
             Debug.Log("PopNewPoint");
             var line = Instantiate(_LinePrefab, startTrans.position, startTrans.rotation, rootTrans);
-            line.Setup(indexCount);
+            line.Setup(indexCount, NextPhase);
             indexCount++;
             line.gameObject.SetActive(true);
             line.gameObject.name += Time.realtimeSinceStartup.ToString();
@@ -245,18 +234,17 @@ namespace App
             return line;
         }
 
-        private void PhaseCheck()
+        private void NextPhase(int phase)
         {
-            if(_gamePlayTimer > _checkPhaseTime)
-            {
-                // 今あるフェーズのアイテム全削除
-                _itemGenerator.ItemAllDestroy();
-                _currentPhase++;
-                // 次のフェーズのアイテム出現
-                _itemGenerator.PhaseItemCreate(_currentPhase);
+            if (_currentPhase >= phase)
+                return;
 
-                _checkPhaseTime += _maxPlayTime / 4;
-            }
+            // 今あるフェーズのアイテム全削除
+            _itemGenerator.ItemAllDestroy();
+            _currentPhase = phase;
+            // 次のフェーズのアイテム出現
+            _itemGenerator.PhaseItemCreate(_currentPhase);
+            Debug.Log(_currentPhase);
         }
     }
 }

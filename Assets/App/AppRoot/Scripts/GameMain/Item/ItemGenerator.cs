@@ -20,7 +20,7 @@ public class ItemGenerator : MonoBehaviour
         entity.transform.localPosition = pos;
 
         _itemMaxId++;
-        entity.Setup(itemVal, _itemMaxId);
+        entity.Setup(itemVal, _itemMaxId, ListRemove);
 
         _itemList.Add(entity);
     }
@@ -69,18 +69,18 @@ public class ItemGenerator : MonoBehaviour
                 break;
             case 1:
                 list = _secondItemObjList;
-                posY_min = -240.0f;
-                posY_max = -390.0f;
+                posY_min = 169.0f;
+                posY_max = -22.0f;
                 break;
             case 2:
                 list = _thirdItemObjList;
-                posY_min = -390.0f;
-                posY_max = -540.0f;
+                posY_min = -22.0f;
+                posY_max = -213.0f;
                 break;
             case 3:
                 list = _fourthItemObjList;
-                posY_min = -540.0f;
-                posY_max = -680.0f;
+                posY_min = -213.0f;
+                posY_max = -404.0f;
                 break;
             default:
                 list = _firstItemObjList;
@@ -127,6 +127,16 @@ public class ItemGenerator : MonoBehaviour
 
         // 全削除テスト
         //ItemAllDestroy();
+    }
+
+    private void ListRemove(int id)
+    {
+        var entity = GetItemEntity(id);
+        if(entity != null)
+        {
+            _itemList.Remove(entity);
+        }
+
     }
 
     // ItemEntityのprefab
