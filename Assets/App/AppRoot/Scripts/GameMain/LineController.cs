@@ -29,13 +29,14 @@ namespace App
             _text.SetText(num.ToString());
         }
 
-        public void Setup(int index)
+        public void Setup(int index, System.Action<int> nextPhseAction)
         {
             Index = index;
             _points.Add(_pointController.transform.localPosition);
             _points.Add(_pointController.transform.localPosition);
             _uiLineRenderer.Points = _points.ToArray();
             _nowIndex = 1;
+            _pointController.Setup(nextPhseAction);
         }
 
         public void MoveStart(float angle)

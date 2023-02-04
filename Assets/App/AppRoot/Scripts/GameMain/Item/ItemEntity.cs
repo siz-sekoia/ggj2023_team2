@@ -1,4 +1,5 @@
 using kumi0708;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +14,18 @@ public class ItemEntity : MonoBehaviour
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="paramVal"></param>
-    public void Setup(float paramVal, int uniqueId)
+    public void Setup(float paramVal, int uniqueId, Action<int> delete)
     {
         _paramVal = paramVal;
         _uniqueId = uniqueId;
-
+        _delete = delete;
         Debug.Log("アイテム生成！ ParamType : " + _paramType + " : ParamVal : " + _paramVal + " : UniqueId : " + _uniqueId);
 
         // 色変えなし
         //SetImageColor(_paramType);
     }
 
+    /*
     /// <summary>
     /// アイテムの画像色設定（仮）
     /// </summary>
@@ -41,6 +43,7 @@ public class ItemEntity : MonoBehaviour
                 break;
         }    
     }
+    */
 
     /// <summary>
     /// アイテム獲得処理
@@ -51,6 +54,8 @@ public class ItemEntity : MonoBehaviour
         eff.EffectEvent();
         // SE再生
         AudioManager.Instance.PlaySE("se_pomyu");
+
+        _delete(_uniqueId);
 
         OnDestroy();
     }
@@ -76,4 +81,6 @@ public class ItemEntity : MonoBehaviour
     // アイテムの画像
     [SerializeField]
     private Image _itemImage;
+
+    private Action<int> _delete;
 }

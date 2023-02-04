@@ -18,6 +18,13 @@ namespace App
         public bool IsPause;
         public float NowAngle;
 
+        private System.Action<int> _nextPhaseAction;
+
+        public void Setup(System.Action<int> nextPhaseAction)
+        {
+            _nextPhaseAction = nextPhaseAction;
+        }
+
         /// <summary>
         ///     角度指定して、移動速度設定 (0 = 下)
         /// </summary>
@@ -61,14 +68,20 @@ namespace App
         /// <param name="collision"></param>
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            NextPhaseLine next = collision.gameObject.GetComponent<NextPhaseLine>();
+            if(next != null)
+            {
+                Destroy(collision.gameObject);
+                _nextPhaseAction(next.nextPhase);
+            }
+
             ItemEntity item = collision.gameObject.GetComponent<ItemEntity>();
-
             // アイテムじゃなければ無視
-            if (item == null)
-                return;
-
-            // アイテム獲得処理
-            item.ItemGet();
+            if (item != null)
+            {
+                // アイテム獲得処理
+                item.ItemGet();
+            }
         }
     }
 }
