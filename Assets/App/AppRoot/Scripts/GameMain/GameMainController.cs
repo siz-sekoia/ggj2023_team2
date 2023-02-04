@@ -65,6 +65,8 @@ namespace App
             // PopNewPoint(_startPoint, transform, 45f);
             
             SetEvent();
+
+            AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
         }
 
         private void SetEvent()
