@@ -14,7 +14,7 @@ namespace App
         private readonly float _defultAngle = -90f;
         public Subject<Unit> OnAddPointObserver { get; set; }
 
-        private bool _isStop;
+        public bool _isStop;
         public float NowAngle;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace App
         public void AddVec(float angle = 0f)
         {
             var tangle = _defultAngle + angle;
-            NowAngle = tangle;
+            NowAngle = angle;
             Debug.Log(tangle);
             // 角度をラジアンに変換
             var rad = tangle * Mathf.Deg2Rad;

@@ -16,7 +16,7 @@ namespace App
         private int _nowIndex = 1;
         private bool initEnd;
 
-        private bool _isStop;
+        public bool _isStop;
 
         public int Index;
 
@@ -40,6 +40,7 @@ namespace App
 
         public void Stop()
         {
+            Debug.Log("Stop");
             _pointController.Stop();
             _isStop = true;
         }

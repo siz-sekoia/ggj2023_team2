@@ -18,7 +18,6 @@ namespace App
 
         [SerializeField] private Button _debugResultButton;
 
-
         public float ForceAngle = -1f;
         public Vector2 AngleRange = new(0, 45);
 
@@ -85,13 +84,8 @@ namespace App
                     Debug.Log("Maxx" + max);
                     for (var i = 0; i < max; i++)
                     {
-                        var line = _allLines[i];
-                        // line.AddPoint();
-                        var p = PopNewPoint(line.Point.transform, transform);
-                        p.Stop();
-                        transforms.Add(p);
+                        transforms.Add(_allLines[i]);
                     }
-
                     Debug.Log("transforms:" + transforms.Count);
                 }
 
@@ -100,7 +94,8 @@ namespace App
                     Debug.Log("transforms c:" + transforms.Count + " al:" + _allLines.Count);
                     foreach (var p in transforms)
                     {
-                        // _allLines.re(p.Index);
+                        p.Stop();
+                        _allLines.RemoveAt(p.Index);
                         var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
                         var select1 = PopNewPoint(p.Point.transform, transform);
                         var select2 = PopNewPoint(p.Point.transform, transform);
@@ -109,11 +104,11 @@ namespace App
                         _allLines.Add(select1);
                         _allLines.Add(select2);
                     }
-
-                    Debug.Log("al:" + _allLines.Count);
-
-                    transforms.Clear();
-                    Debug.Log("_allLines c:" + _allLines.Count + " " + transforms.Count);
+                    //
+                    //     Debug.Log("al:" + _allLines.Count);
+                    //
+                    //     transforms.Clear();
+                    //     Debug.Log("_allLines c:" + _allLines.Count + " " + transforms.Count);
                 }
             }
             else
