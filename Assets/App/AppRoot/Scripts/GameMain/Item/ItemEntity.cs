@@ -1,3 +1,4 @@
+using kumi0708;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,11 @@ public class ItemEntity : MonoBehaviour
     /// </summary>
     public void ItemGet()
     {
+        // エフェクト再生（なぜか出ない…）
+        eff.EffectEvent();
+        // SE再生
+        AudioManager.Instance.PlaySE("se_pomyu");
+
         OnDestroy();
     }
 
@@ -63,6 +69,8 @@ public class ItemEntity : MonoBehaviour
     private GameDefine.ItemParamType _paramType;
     // パラメータの値
     private float _paramVal;
+    [SerializeField]
+    private effect eff;
     // アイテムの画像
     [SerializeField]
     private Image _itemImage;

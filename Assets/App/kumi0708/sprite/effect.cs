@@ -74,7 +74,7 @@ namespace kumi0708
 		public void Update()
 		{
 			time -= Time.deltaTime;
-			if (time < 0)
+			if (time < 0 && currentEffect != null)
 			{
 				currentEffect.SetActive(false);
 			}
