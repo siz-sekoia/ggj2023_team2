@@ -18,6 +18,9 @@ namespace App
 
         [SerializeField] private Button _debugResultButton;
 
+        [SerializeField] private float _maxPlayTime = 0.0f;
+        [SerializeField] private ItemGenerator _itemGenerator;
+
         public float ForceAngle = -1f;
         public Vector2 AngleRange = new(0, 45);
 
@@ -51,7 +54,12 @@ namespace App
         public float checkTime = 0.1f;
 
         public bool IsWaitClick = true;
-        
+
+        private float _gamePlayTimer = 0.0f;
+        private float _checkPhaseTime = 0.0f;
+
+        private int _currentPhase = 0;
+
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
@@ -66,7 +74,11 @@ namespace App
             
             SetEvent();
 
+            // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
+
+            // 次のフェーズ時間設定
+            _checkPhaseTime = _maxPlayTime / 4;
         }
 
         private void SetEvent()
@@ -214,6 +226,10 @@ namespace App
                     _moveCameraController.SetTarget(_nowSelectLine.Point.transform);
                 }
             }
+
+            _gamePlayTimer += Time.deltaTime;
+            PhaseCheck();
+
             // _moveCameraController.SetTarget();
         }
 
@@ -227,6 +243,20 @@ namespace App
             line.gameObject.name += Time.realtimeSinceStartup.ToString();
             _nowSelectLine = line;
             return line;
+        }
+
+        private void PhaseCheck()
+        {
+            if(_gamePlayTimer > _checkPhaseTime)
+            {
+                // 今あるフェーズのアイテム全削除
+                _itemGenerator.ItemAllDestroy();
+                _currentPhase++;
+                // 次のフェーズのアイテム出現
+                _itemGenerator.PhaseItemCreate(_currentPhase);
+
+                _checkPhaseTime += _maxPlayTime / 4;
+            }
         }
     }
 }
