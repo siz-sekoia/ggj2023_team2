@@ -10,6 +10,7 @@ namespace App
 {
     public class GameMainController : MonoBehaviour
     {
+        [SerializeField] private MoveCameraController _moveCameraController;
         [SerializeField] private LineController _LinePrefab;
         [SerializeField] private Transform _startPoint;
 
@@ -26,6 +27,8 @@ namespace App
 
         private LineController _lineRenderer;
         private PointController _point;
+
+        private bool isClicking;
 
         private void Start()
         {
@@ -55,19 +58,6 @@ namespace App
             //RayCast（スクリーン座標）
             EventSystem.current.RaycastAll(pointData, RayResult);
 
-            // TODO: 一時コメントアウトIiyama
-            // if (Input.GetMouseButtonUp(0))
-            // {
-            //     var raycastResult = RayResult.FirstOrDefault(x => x.gameObject.tag == "Player");
-            //     if (!raycastResult.Equals(default(RaycastResult)))
-            //     {
-            //         var pointController = raycastResult.gameObject.GetComponent<PointController>();
-            //         // 分岐ポイント追加
-            //         pointController.AddPoint();
-            //         // PopNewPoint(line.Point.transform, transform, line.IsReft ? 45f : -45f);
-            //     }
-            // }
-
             if (Input.GetMouseButtonUp(0))
             {
                 var max = _allLines.Count;
@@ -78,6 +68,15 @@ namespace App
                     PopNewPoint(line.Point.transform, transform, line.IsReft ? -45f : 45f);
                 }
             }
+
+            if (Input.GetMouseButtonDown(0)) isClicking = true;
+            if (Input.GetMouseButtonUp(0))
+            {
+                isClicking = false;
+            }
+
+            if (Input.GetMouseButtonUp(1)) isClicking = false;
+            // _moveCameraController.SetTarget();
         }
 
         private void PopNewPoint(Transform startTrans, Transform rootTrans, float angle)
