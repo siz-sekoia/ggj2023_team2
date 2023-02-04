@@ -61,7 +61,7 @@ public class ItemGenerator : MonoBehaviour
     {
         Vector3 pos = Vector3.zero;
 
-        for (int idx = 0; idx < 10; idx++)
+        for (int idx = 0; idx < _initCraeteItemCount + 1; idx++)
         {
             float x = Random.Range(-500.0f, 500.0f);
             float y = Random.Range(-500.0f, 500.0f);
@@ -80,6 +80,8 @@ public class ItemGenerator : MonoBehaviour
     // ItemEntityのprefab
     [SerializeField]
     private GameObject _itemObj;
+    [SerializeField]
+    private int _initCraeteItemCount = 0;
     // 存在するアイテムのリスト
     private List<ItemEntity> _itemList = new List<ItemEntity>();
     // アイテムに振っている最大のID
