@@ -68,7 +68,7 @@ public class DeepLAPITest : MonoBehaviour
     /// <summary>
     /// 設定言語
     /// </summary>
-    private enum Language
+    public enum Language
     {
         JA,
         EN
@@ -85,7 +85,7 @@ public class DeepLAPITest : MonoBehaviour
     /// <param name="speechText">翻訳したい文字列</param>
     /// <param name="ct">CancellationToken</param>
     /// <returns>翻訳結果</returns>
-    private async UniTask<string> GetTranslation(Language from, Language to, string speechText, CancellationToken ct)
+    public static async UniTask<string> GetTranslation(Language from, Language to, string speechText, CancellationToken ct)
     {
         //POSTメソッドのリクエストを作成
         var requestInfo = ENDPOINT + API_KEY;
