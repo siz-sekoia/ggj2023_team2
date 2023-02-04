@@ -6,21 +6,21 @@ public class ItemGenerator : MonoBehaviour
 {
     private void Start()
     {
-        Test();
+        PhaseItemCreate(0);
     }
 
     /// <summary>
     /// アイテム生成処理
     /// </summary>
-    public void ItemCreate(int itemParamType, float itemVal, Vector3 pos)
+    public void ItemCreate(GameObject item, float itemVal, Vector3 pos)
     {
-        var entity = Instantiate(_itemObj, Vector3.zero, Quaternion.identity).GetComponent<ItemEntity>();
+        var entity = Instantiate(item, Vector3.zero, Quaternion.identity).GetComponent<ItemEntity>();
 
         entity.transform.SetParent(transform);
         entity.transform.localPosition = pos;
 
         _itemMaxId++;
-        entity.Setup(itemParamType, itemVal, _itemMaxId);
+        entity.Setup(itemVal, _itemMaxId);
 
         _itemList.Add(entity);
     }
@@ -54,8 +54,60 @@ public class ItemGenerator : MonoBehaviour
         _itemList.Clear();
     }
 
+    public void PhaseItemCreate(int phase)
+    {
+        List<GameObject> list = new List<GameObject>();
+        float posY_min = 0.0f;
+        float posY_max = 0.0f;
+
+        switch(phase)
+        {
+            case 0:
+                list = _firstItemObjList;
+                posY_min = 360.0f;
+                posY_max = 169.0f;
+                break;
+            case 1:
+                list = _secondItemObjList;
+                posY_min = -240.0f;
+                posY_max = -390.0f;
+                break;
+            case 2:
+                list = _thirdItemObjList;
+                posY_min = -390.0f;
+                posY_max = -540.0f;
+                break;
+            case 3:
+                list = _fourthItemObjList;
+                posY_min = -540.0f;
+                posY_max = -680.0f;
+                break;
+            default:
+                list = _firstItemObjList;
+                Debug.LogWarning("意図しないフェーズのアイテムを生成しようとしているので、第1フェーズのアイテムを生成します");
+                break;
+        }
+
+        foreach(var obj in list)
+        {
+            for(int count = 0; count < _initCraeteItemCount; count++)
+            {
+                float val = Random.Range(_increaseMinNum, _increaseMaxNum);
+                float pos_x = Random.Range(-384.0f, 348.0f);
+                float pos_y = Random.Range(posY_min, posY_max);
+                
+                Vector3 pos = Vector3.zero;
+                pos.x = pos_x;
+                pos.y = pos_y;
+                pos.z = 0.0f;
+                
+                ItemCreate(obj, val, pos);
+            }
+        }
+    }
+
     /// <summary>
-    /// アイテム生成テスト
+    /// アイテム生成テスト（使えません）
     /// </summary>
     private void Test()
     {
@@ -70,7 +122,7 @@ public class ItemGenerator : MonoBehaviour
             pos.y = y;
             pos.z = 0.0f;
 
-            ItemCreate(0, 100.0f, pos);
+            //ItemCreate(0, 100.0f, pos);
         }
 
         // 全削除テスト
@@ -82,6 +134,20 @@ public class ItemGenerator : MonoBehaviour
     private GameObject _itemObj;
     [SerializeField]
     private int _initCraeteItemCount = 0;
+    [SerializeField]
+    private List<GameObject> _firstItemObjList = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> _secondItemObjList = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> _thirdItemObjList = new List<GameObject>();
+    [SerializeField]
+    private List<GameObject> _fourthItemObjList = new List<GameObject>();
+    // パラメータ増加の最大値
+    [SerializeField]
+    private float _increaseMaxNum;
+    // パラメータ増加の最小値
+    [SerializeField]
+    private float _increaseMinNum;
     // 存在するアイテムのリスト
     private List<ItemEntity> _itemList = new List<ItemEntity>();
     // アイテムに振っている最大のID

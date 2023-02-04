@@ -13,15 +13,15 @@ public class ItemEntity : MonoBehaviour
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="paramVal"></param>
-    public void Setup(int paramType, float paramVal, int uniqueId)
+    public void Setup(float paramVal, int uniqueId)
     {
-        _paramType = (GameDefine.ItemParamType)paramType;
         _paramVal = paramVal;
         _uniqueId = uniqueId;
 
         Debug.Log("アイテム生成！ ParamType : " + _paramType + " : ParamVal : " + _paramVal + " : UniqueId : " + _uniqueId);
 
-        SetImageColor(_paramType);
+        // 色変えなし
+        //SetImageColor(_paramType);
     }
 
     /// <summary>
@@ -65,8 +65,10 @@ public class ItemEntity : MonoBehaviour
 
     // アイテムのユニークID（必ず他のアイテムと被らないID）
     private int _uniqueId;
+    [SerializeField]
     // パラメータのタイプ（性別とか）
     private GameDefine.ItemParamType _paramType;
+    [SerializeField]
     // パラメータの値
     private float _paramVal;
     [SerializeField]
