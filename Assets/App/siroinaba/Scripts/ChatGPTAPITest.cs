@@ -7,7 +7,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 
 
-public class ChatGPTAPITest: MonoBehaviour
+public class ChatGPTAPITest: App.SingletonMonoBehaviour<ChatGPTAPITest>
 {
     /// <summary>
     /// APIエンドポイント
@@ -16,7 +16,7 @@ public class ChatGPTAPITest: MonoBehaviour
     /// <summary>
     /// API KEY（固定はもう使わない）
     /// </summary>
-    //string API_KEY = "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";
+    //string API_KEY = "";
     /// <summary>
     /// 入力欄
     /// </summary>
@@ -38,17 +38,23 @@ public class ChatGPTAPITest: MonoBehaviour
         ExecButton.onClick.AddListener(async () =>
         {
             //入力取得
-            string apiKey = inputApiKey.text;
+            GGJ2023APIController.Instance.chatGptApiKey = inputApiKey.text;
             string prompt = Input.text;
 
-            if (!string.IsNullOrEmpty(prompt) && !string.IsNullOrEmpty(apiKey))
+            // ChatGPTに食わせたい文字がない場合、ChatGPTのAPIキーが登録されていない場合は、処理しない
+            if (!string.IsNullOrEmpty(prompt) && !string.IsNullOrEmpty(GGJ2023APIController.Instance.chatGptApiKey))
             {
-                //レスポンス取得
-                var response = await GetAPIResponse(prompt);
-                //レスポンスからテキスト取得
+                // ChatGPTのAPIを叩いて、レスポンス取得
+                var response = await GGJ2023APIController.GetChatGPTAPIResponse(prompt, GGJ2023APIController.Instance.chatGptApiKey);
+                // レスポンスからテキスト取得
                 string outputText = response.Choices.FirstOrDefault().Text;
                 Output.text = outputText.TrimStart('\n');
-                Debug.Log(outputText);
+                Debug.Log("CHAT_GPT  :  " +  outputText);
+
+                // DeepLのAPI叩いて英語から日本語に翻訳かける
+                var token = this.GetCancellationTokenOnDestroy();
+                var response2 = await GGJ2023APIController.GetDeepLTranslation(GameDefine.Language.EN, GameDefine.Language.JA, Output.text, token);
+                Output.text = response2;
             }
 
         });
@@ -65,7 +71,7 @@ public class ChatGPTAPITest: MonoBehaviour
     /// <param name="prompt"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async UniTask<APIResponseData> GetAPIResponse(string prompt)
+    public static async UniTask<APIResponseData> GetAPIResponse(string prompt, string apiKey)
     {
         APIRequestData requestData = new()
         {
@@ -87,7 +93,7 @@ public class ChatGPTAPITest: MonoBehaviour
             request.uploadHandler = new UploadHandlerRaw(data);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Authorization", "Bearer " + inputApiKey.text);
+            request.SetRequestHeader("Authorization", "Bearer " + apiKey);
             await request.SendWebRequest();
 
             switch (request.result)
