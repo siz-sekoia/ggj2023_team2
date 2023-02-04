@@ -55,14 +55,14 @@ public class effect : MonoBehaviour
 		}
 		effec = (eEffec)index;
 		WrapIndex();
-		PlayAtIndex();
+		EffectEvent();
 	}
 
 	public void PreviousEffect()
 	{
 		index--;
 		WrapIndex();
-		PlayAtIndex();
+		EffectEvent();
 	}
 		
 
@@ -74,7 +74,7 @@ public class effect : MonoBehaviour
 	public bool RandmFlag = false;
 
 	public eEffec effec = eEffec.CFXR_Explosion_1;
-	[Button("PlayAtIndex", "effect")]
+	[Button("EffectEvent", "effect")]
 	public int EffectButton;
 
 	public float lifeTime = 10.0f;
@@ -103,7 +103,7 @@ public class effect : MonoBehaviour
 		}
 	}
 
-	public void PlayAtIndex()
+	public void EffectEvent()
 	{
 		time = lifeTime;
 
