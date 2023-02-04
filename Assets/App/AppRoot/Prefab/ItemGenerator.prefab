@@ -45,3 +45,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemObj: {fileID: 7184514493143043446, guid: 3625541a76fba96418f06173283efd7f, type: 3}
+  _initCraeteItemCount: 7
+  _firstItemObjList:
+  - {fileID: 7184514493143043446, guid: 14aca5956f7971543bb588d3af2ebbba, type: 3}
+  - {fileID: 7184514493143043446, guid: 2cd5623e16e3b5d4baa21de8d0e0de63, type: 3}
+  - {fileID: 7184514493143043446, guid: 151db0b07bf543f408f2e53f17414c83, type: 3}
+  _secondItemObjList:
+  - {fileID: 7184514493143043446, guid: 580b66b21b468774ead707b267620c73, type: 3}
+  - {fileID: 7184514493143043446, guid: c65b7d36aa4f6044fa1fd2023891eeb4, type: 3}
+  - {fileID: 7184514493143043446, guid: 7bc89d12f3097bd4ab92d973f2cd3ef1, type: 3}
+  _thirdItemObjList:
+  - {fileID: 7184514493143043446, guid: c778eeb70a4320441abdd824edf7916d, type: 3}
+  - {fileID: 7184514493143043446, guid: 964ed56aae796d24881d64f2809e3e34, type: 3}
+  - {fileID: 7184514493143043446, guid: e3cb4a807999d134eb5d46ec2db2264a, type: 3}
+  _fourthItemObjList:
+  - {fileID: 7184514493143043446, guid: 738ad38308b488b48b2ee5595d2ed135, type: 3}
+  - {fileID: 7184514493143043446, guid: 691f49d50135ac04a80bd8b048433a6b, type: 3}
+  - {fileID: 7184514493143043446, guid: ea42630a1dfb68e4c8206d577fde01b6, type: 3}
+  _increaseMaxNum: 0.5
+  _increaseMinNum: 0.1

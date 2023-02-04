@@ -15,13 +15,19 @@ public class GameDefine
 
     public enum ItemParamType
     {
+        NONE,   // 初期値
+        ENVIRONMENT,    // 環境
         GENDER, // 性別
-        CHARACTER, //
-        INTROVERTED, // ないこ
-        CLIMATE, // kiko
-        RELATIONSHIP_WITH_TREE,
-
-
+        VILLAIN,    // 悪人善人
+        EVENT,  // 出来事
+        EVENT_FIRST_RESULT, // 受け入れ方
+        GOAL,   // 目的地
+        HOW_TO_WARP,    // 方法
+        NECESSARY,  // 必要なもの
+        DIFICCULT,  // 難易度
+        EVENT_SECOND_WARP,  // 達成度
+        CHANGE, //  変化
+        EVALUATION  //評価
     }
 
     // DeepLのAPIKEY

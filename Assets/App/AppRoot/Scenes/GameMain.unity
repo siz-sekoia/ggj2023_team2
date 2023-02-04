@@ -5648,7 +5648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6540516851724239726, guid: fbbff121daabb4b50bfeca72edfe17d6, type: 3}
       propertyPath: _initCraeteItemCount
-      value: 50
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7649774256078504654, guid: fbbff121daabb4b50bfeca72edfe17d6, type: 3}
       propertyPath: m_IsActive
