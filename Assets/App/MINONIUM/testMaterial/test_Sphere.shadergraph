@@ -748,7 +748,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Y",
     "m_StageCapability": 3,
-    "m_Value": 0.0,
+    "m_Value": 0.05999999865889549,
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "Y"
@@ -766,8 +766,8 @@
     "m_ShaderOutputName": "Tiling",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 6.0,
-        "y": 6.0
+        "x": 5.0,
+        "y": 5.0
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -1059,7 +1059,7 @@
     "m_StageCapability": 3,
     "m_Value": {
         "x": 2.0,
-        "y": -0.029999999329447748
+        "y": -0.1599999964237213
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -1410,7 +1410,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Power",
     "m_StageCapability": 3,
-    "m_Value": 2.450000047683716,
+    "m_Value": 1.6399999856948853,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -2067,7 +2067,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": 5.0,
+    "m_Value": 2.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -3946,7 +3946,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": 0.029999999329447748,
+    "m_Value": -0.10000000149011612,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
