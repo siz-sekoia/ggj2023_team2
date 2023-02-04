@@ -7,29 +7,35 @@ namespace App
     [RequireComponent(typeof(UILineRenderer))]
     public class LineController : MonoBehaviour
     {
-        private UILineRenderer _uiLineRenderer;
-        private PointController _targetPoint;
+        [SerializeField] private PointController _pointController;
+        [SerializeField] private UILineRenderer _uiLineRenderer;
+
+        public PointController Point => _pointController;
         private readonly List<Vector2> _points = new();
-
+        public bool IsReft;
         private int _nowIndex = 1;
+        private bool initEnd;
 
-        private void Awake()
+        public void Setup(float angle)
         {
-            _uiLineRenderer = GetComponent<UILineRenderer>();
-        }
+            // 左右確保
+            IsReft = angle > 0f;
 
-        public void Setup(PointController pointController)
-        {
-            _targetPoint = pointController;
-            _points.Add(_targetPoint.transform.position);
-            _points.Add(_targetPoint.transform.position);
+            _points.Add(_pointController.transform.localPosition);
+            _points.Add(_pointController.transform.localPosition);
+            _uiLineRenderer.Points = _points.ToArray();
             _nowIndex = 1;
-        }
 
+            // ポイント移動開始
+            _pointController.AddVec(angle);
+            initEnd = true;
+        }
 
         private void Update()
         {
-            _uiLineRenderer.Points[_nowIndex] = _targetPoint.transform.position;
+            if (!initEnd) return;
+            _uiLineRenderer.Points[_nowIndex] = _pointController.transform.localPosition;
+            _uiLineRenderer.SetAllDirty();
         }
     }
 }

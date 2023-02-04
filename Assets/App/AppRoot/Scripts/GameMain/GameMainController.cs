@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,11 +10,12 @@ namespace App
 {
     public class GameMainController : MonoBehaviour
     {
-        [SerializeField] private UILineRenderer _uiLineRendererPrefab;
-        [SerializeField] private PointController _plinePrefab;
+        [SerializeField] private LineController _LinePrefab;
         [SerializeField] private Transform _startPoint;
 
         [SerializeField] private Button _debugResultButton;
+
+        private readonly List<LineController> _allLines = new();
 
         private readonly int index = 0;
         private readonly Dictionary<int, UILineRenderer> _lineRenderers = new();
@@ -31,6 +31,11 @@ namespace App
         {
             //RaycastAllの引数PointerEvenDataを作成
             pointData = new PointerEventData(EventSystem.current);
+
+            // 開始時最初のポイント生成
+            PopNewPoint(_startPoint, transform, -45f);
+            PopNewPoint(_startPoint, transform, 45f);
+            
             SetEvent();
         }
 
@@ -43,19 +48,6 @@ namespace App
 
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                // _uiLineRenderer = Instantiate(_uiLineRendererPrefab, _startPoint.position, _startPoint.rotation,
-                //     transform);
-                // _uiLineRenderer.Points = new[] { Vector2.zero, Vector2.zero };
-                // _uiLineRenderer.gameObject.SetActive(true);
-                // _point = Instantiate(_plinePrefab, _startPoint.position, _startPoint.rotation, transform);
-                // _point.AddVec();
-                // _point.gameObject.SetActive(true);
-            }
-
-            // if (_point != null) _uiLineRenderer.Points[1] = _point.transform.position;
-
             //RaycastAllの結果格納用のリスト作成
             var RayResult = new List<RaycastResult>();
             //PointerEvenDataに、マウスの位置をセット
@@ -63,40 +55,38 @@ namespace App
             //RayCast（スクリーン座標）
             EventSystem.current.RaycastAll(pointData, RayResult);
 
+            // TODO: 一時コメントアウトIiyama
+            // if (Input.GetMouseButtonUp(0))
+            // {
+            //     var raycastResult = RayResult.FirstOrDefault(x => x.gameObject.tag == "Player");
+            //     if (!raycastResult.Equals(default(RaycastResult)))
+            //     {
+            //         var pointController = raycastResult.gameObject.GetComponent<PointController>();
+            //         // 分岐ポイント追加
+            //         pointController.AddPoint();
+            //         // PopNewPoint(line.Point.transform, transform, line.IsReft ? 45f : -45f);
+            //     }
+            // }
+
             if (Input.GetMouseButtonUp(0))
             {
-                var raycastResult = RayResult.FirstOrDefault(x => x.gameObject.tag == "Player");
-                if (!raycastResult.Equals(default(RaycastResult)))
+                var max = _allLines.Count;
+                for (var i = 0; i < max; i++)
                 {
-                    var pointController = raycastResult.gameObject.GetComponent<PointController>();
-                    pointController.AddVec(Random.Range(-30, 30));
-                    // _uiLineRenderer.Points.AddRange(new[] { _point.transform.position });
+                    var line = _allLines[i];
+                    // line.AddPoint();
+                    PopNewPoint(line.Point.transform, transform, line.IsReft ? -45f : 45f);
                 }
-                // raycastResult.gameObject.GetComponent<PointController>();
-                // if (pointObj is PointController)
-                // {
-                //     // pointController
-                //     // var uiLineRenderer =
-                //     //     Instantiate(_uiLineRenderer, _startPoint.position, _startPoint.rotation, transform);
-                //     // uiLineRenderer.gameObject.SetActive(true);
-                //     // var pointController =
-                //     //     Instantiate(_plinePrefab, _startPoint.position, _startPoint.rotation, transform);
-                //     // pointController.SetVec(-90 + Random.Range(-30, 30));
-                //     // pointController.gameObject.SetActive(true);
-                //     // Debug.Log("Point!");
-                // }
             }
         }
 
-        private void PopNewPoint()
+        private void PopNewPoint(Transform startTrans, Transform rootTrans, float angle)
         {
-            var uiLineRenderer = Instantiate(_uiLineRendererPrefab, _startPoint.position, _startPoint.rotation,
-                transform);
-            // _uiLineRenderer.Points = new[] { Vector2.zero, Vector2.zero };
-            // _uiLineRenderer.gameObject.SetActive(true);
-            _point = Instantiate(_plinePrefab, _startPoint.position, _startPoint.rotation, transform);
-            _point.AddVec();
-            _point.gameObject.SetActive(true);
+            var line = Instantiate(_LinePrefab, startTrans.position, startTrans.rotation, rootTrans);
+            line.Setup(angle);
+            line.gameObject.SetActive(true);
+            line.gameObject.name += Time.realtimeSinceStartup.ToString();
+            _allLines.Add(line);
         }
     }
 }
