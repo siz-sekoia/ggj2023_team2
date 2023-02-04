@@ -15,6 +15,7 @@ namespace App
         public Subject<Unit> OnAddPointObserver { get; set; }
 
         public bool _isStop;
+        public bool IsPause;
         public float NowAngle;
 
         /// <summary>
@@ -40,9 +41,15 @@ namespace App
             gameObject.SetActive(false);
         }
 
+        public void SetPause(bool enable)
+        {
+            IsPause = enable;
+        }
+
         // Update is called once per frame
         private void Update()
         {
+            if (IsPause) return;
             if (_isStop) return;
             // 物体を移動する
             transform.position += vec;

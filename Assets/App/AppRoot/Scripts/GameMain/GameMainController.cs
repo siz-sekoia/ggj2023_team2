@@ -43,6 +43,14 @@ namespace App
         private readonly List<LineController> transforms = new();
 
         private int indexCount;
+
+        private int selectNum;
+        public int AngleLimit = 90;
+
+        private float timer;
+        public float checkTime = 0.1f;
+
+        public bool IsWaitClick = true;
         
         private void Start()
         {
@@ -84,19 +92,39 @@ namespace App
                     Debug.Log("Maxx" + max);
                     for (var i = 0; i < max; i++)
                     {
+                        if (_allLines[i].IsStop) continue;
                         transforms.Add(_allLines[i]);
+                        _allLines[i].SetPause(true);
                     }
                     Debug.Log("transforms:" + transforms.Count);
+                    isClicking = true;
+                    selectNum = 0;
+                }
+
+                if (isClicking && IsWaitClick)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > checkTime)
+                    {
+                        timer = 0f;
+                        selectNum++;
+                        if (AngleLimit <= selectNum) selectNum = 0;
+
+                        foreach (var t in _allLines)
+                            if (!t.IsStop)
+                                t.SetText(selectNum);
+                    }
                 }
 
                 if (Input.GetMouseButtonUp(0))
                 {
+                    isClicking = false;
                     Debug.Log("transforms c:" + transforms.Count + " al:" + _allLines.Count);
+                    var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
+                    if (IsWaitClick) angle = selectNum;
                     foreach (var p in transforms)
                     {
                         p.Stop();
-                        _allLines.RemoveAt(p.Index);
-                        var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
                         var select1 = PopNewPoint(p.Point.transform, transform);
                         var select2 = PopNewPoint(p.Point.transform, transform);
                         select1.MoveStart(angle + p.Point.NowAngle);
@@ -104,23 +132,39 @@ namespace App
                         _allLines.Add(select1);
                         _allLines.Add(select2);
                     }
-                    //
-                    //     Debug.Log("al:" + _allLines.Count);
-                    //
-                    //     transforms.Clear();
-                    //     Debug.Log("_allLines c:" + _allLines.Count + " " + transforms.Count);
                 }
             }
             else
             {
-                if (Input.GetMouseButtonDown(0)) isClicking = true;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("LDown");
+                    isClicking = true;
+                    selectNum = 0;
+                    _nowSelectLine.SetPause(true);
+                }
+
+                if (isClicking && IsWaitClick)
+                {
+                    timer += Time.deltaTime;
+                    if (timer > checkTime)
+                    {
+                        timer = 0f;
+                        selectNum++;
+                        if (AngleLimit <= selectNum) selectNum = 0;
+
+                        foreach (var t in _allLines)
+                            if (!t.IsStop)
+                                t.SetText(selectNum);
+                    }
+                }
+                
                 if (Input.GetMouseButtonUp(0))
                 {
+                    Debug.Log("LUp");
                     isClicking = false;
                     _nowSelectLine.Stop();
                     var nowTransform = _nowSelectLine.Point.transform;
-
-                    _allLines.RemoveAt(_nowSelectLine.Index);
 
                     var line1 = PopNewPoint(nowTransform, transform);
                     _allLines.Add(line1);
@@ -129,6 +173,13 @@ namespace App
 
                     _select1 = line1;
                     _select2 = line2;
+
+                    var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
+                    if (IsWaitClick) angle = selectNum;
+                    line1.MoveStart(angle);
+                    line2.MoveStart(angle * -1f);
+
+                    // line1選択しておく
                     _nowSelectLine = line1;
 
                     // ターゲット更新
@@ -140,18 +191,25 @@ namespace App
                     isClicking = false;
                     var nowIndex = _allLines.FindIndex(x => x == _nowSelectLine);
                     Debug.Log($"b nowIndex:{nowIndex} Count{_allLines.Count}");
-                    nowIndex++;
-                    if (_allLines.Count <= nowIndex) nowIndex = 0;
+                    LineController hit = null;
+                    for (var i = nowIndex + 1; i < _allLines.Count; i++)
+                        if (!_allLines[i].IsStop)
+                        {
+                            hit = _allLines[i];
+                            break;
+                        }
 
-                    Debug.Log($"a nowIndex:{nowIndex}");
-                    _nowSelectLine = _allLines[nowIndex];
+                    if (!hit)
+                        for (var i = 0; i < nowIndex; i++)
+                            if (!_allLines[i].IsStop)
+                            {
+                                hit = _allLines[i];
+                                break;
+                            }
+
+                    if (!hit) Debug.LogError("ない！！！！！！！！！！！！！！！！！！！！");
+                    _nowSelectLine = hit;
                     _moveCameraController.SetTarget(_nowSelectLine.Point.transform);
-
-                    var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
-                    _select1.MoveStart(angle);
-                    _select2.MoveStart(angle * -1f);
-                    _select1 = null;
-                    _select2 = null;
                 }
             }
             // _moveCameraController.SetTarget();
