@@ -16,23 +16,37 @@ namespace App
         private int _nowIndex = 1;
         private bool initEnd;
 
-        public void Setup(float angle)
-        {
-            // 左右確保
-            IsReft = angle > 0f;
+        private bool _isStop;
 
+        public int Index;
+
+        public void Setup(int index)
+        {
+            Index = index;
             _points.Add(_pointController.transform.localPosition);
             _points.Add(_pointController.transform.localPosition);
             _uiLineRenderer.Points = _points.ToArray();
             _nowIndex = 1;
+        }
 
+        public void MoveStart(float angle)
+        {
+            // 左右確保
+            IsReft = angle > 0f;
             // ポイント移動開始
             _pointController.AddVec(angle);
             initEnd = true;
         }
 
+        public void Stop()
+        {
+            _pointController.Stop();
+            _isStop = true;
+        }
+
         private void Update()
         {
+            if (_isStop) return;
             if (!initEnd) return;
             _uiLineRenderer.Points[_nowIndex] = _pointController.transform.localPosition;
             _uiLineRenderer.SetAllDirty();

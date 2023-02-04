@@ -10,11 +10,17 @@ namespace App
 {
     public class GameMainController : MonoBehaviour
     {
+        public bool IsAll;
+        
         [SerializeField] private MoveCameraController _moveCameraController;
         [SerializeField] private LineController _LinePrefab;
         [SerializeField] private Transform _startPoint;
 
         [SerializeField] private Button _debugResultButton;
+
+
+        public float ForceAngle = -1f;
+        public Vector2 AngleRange = new(0, 45);
 
         private readonly List<LineController> _allLines = new();
 
@@ -29,15 +35,27 @@ namespace App
         private PointController _point;
 
         private bool isClicking;
+        private LineController _nowSelectLine;
 
+        private LineController _select1;
+        private LineController _select2;
+
+        // All用
+        private readonly List<LineController> transforms = new();
+
+        private int indexCount;
+        
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
             pointData = new PointerEventData(EventSystem.current);
 
             // 開始時最初のポイント生成
-            PopNewPoint(_startPoint, transform, -45f);
-            PopNewPoint(_startPoint, transform, 45f);
+            var line = PopNewPoint(_startPoint, transform);
+            line.MoveStart(0f);
+            _moveCameraController.SetTarget(line.Point.transform);
+            _allLines.Add(line);
+            // PopNewPoint(_startPoint, transform, 45f);
             
             SetEvent();
         }
@@ -52,40 +70,108 @@ namespace App
         private void Update()
         {
             //RaycastAllの結果格納用のリスト作成
-            var RayResult = new List<RaycastResult>();
-            //PointerEvenDataに、マウスの位置をセット
-            pointData.position = Input.mousePosition;
-            //RayCast（スクリーン座標）
-            EventSystem.current.RaycastAll(pointData, RayResult);
+            // var RayResult = new List<RaycastResult>();
+            // //PointerEvenDataに、マウスの位置をセット
+            // pointData.position = Input.mousePosition;
+            // //RayCast（スクリーン座標）
+            // EventSystem.current.RaycastAll(pointData, RayResult);
 
-            if (Input.GetMouseButtonUp(0))
+            if (IsAll)
             {
-                var max = _allLines.Count;
-                for (var i = 0; i < max; i++)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    var line = _allLines[i];
-                    // line.AddPoint();
-                    PopNewPoint(line.Point.transform, transform, line.IsReft ? -45f : 45f);
+                    transforms.Clear();
+                    var max = _allLines.Count;
+                    Debug.Log("Maxx" + max);
+                    for (var i = 0; i < max; i++)
+                    {
+                        var line = _allLines[i];
+                        // line.AddPoint();
+                        var p = PopNewPoint(line.Point.transform, transform);
+                        p.Stop();
+                        transforms.Add(p);
+                    }
+
+                    Debug.Log("transforms:" + transforms.Count);
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Debug.Log("transforms c:" + transforms.Count + " al:" + _allLines.Count);
+                    foreach (var p in transforms)
+                    {
+                        // _allLines.re(p.Index);
+                        var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
+                        var select1 = PopNewPoint(p.Point.transform, transform);
+                        var select2 = PopNewPoint(p.Point.transform, transform);
+                        select1.MoveStart(angle + p.Point.NowAngle);
+                        select2.MoveStart(angle * -1f + p.Point.NowAngle);
+                        _allLines.Add(select1);
+                        _allLines.Add(select2);
+                    }
+
+                    Debug.Log("al:" + _allLines.Count);
+
+                    transforms.Clear();
+                    Debug.Log("_allLines c:" + _allLines.Count + " " + transforms.Count);
                 }
             }
-
-            if (Input.GetMouseButtonDown(0)) isClicking = true;
-            if (Input.GetMouseButtonUp(0))
+            else
             {
-                isClicking = false;
-            }
+                if (Input.GetMouseButtonDown(0)) isClicking = true;
+                if (Input.GetMouseButtonUp(0))
+                {
+                    isClicking = false;
+                    _nowSelectLine.Stop();
+                    var nowTransform = _nowSelectLine.Point.transform;
 
-            if (Input.GetMouseButtonUp(1)) isClicking = false;
+                    _allLines.RemoveAt(_nowSelectLine.Index);
+
+                    var line1 = PopNewPoint(nowTransform, transform);
+                    _allLines.Add(line1);
+                    var line2 = PopNewPoint(nowTransform, transform);
+                    _allLines.Add(line2);
+
+                    _select1 = line1;
+                    _select2 = line2;
+                    _nowSelectLine = line1;
+
+                    // ターゲット更新
+                    _moveCameraController.SetTarget(line1.Point.transform);
+                }
+
+                if (Input.GetMouseButtonUp(1))
+                {
+                    isClicking = false;
+                    var nowIndex = _allLines.FindIndex(x => x == _nowSelectLine);
+                    Debug.Log($"b nowIndex:{nowIndex} Count{_allLines.Count}");
+                    nowIndex++;
+                    if (_allLines.Count <= nowIndex) nowIndex = 0;
+
+                    Debug.Log($"a nowIndex:{nowIndex}");
+                    _nowSelectLine = _allLines[nowIndex];
+                    _moveCameraController.SetTarget(_nowSelectLine.Point.transform);
+
+                    var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);
+                    _select1.MoveStart(angle);
+                    _select2.MoveStart(angle * -1f);
+                    _select1 = null;
+                    _select2 = null;
+                }
+            }
             // _moveCameraController.SetTarget();
         }
 
-        private void PopNewPoint(Transform startTrans, Transform rootTrans, float angle)
+        private LineController PopNewPoint(Transform startTrans, Transform rootTrans)
         {
+            Debug.Log("PopNewPoint");
             var line = Instantiate(_LinePrefab, startTrans.position, startTrans.rotation, rootTrans);
-            line.Setup(angle);
+            line.Setup(indexCount);
+            indexCount++;
             line.gameObject.SetActive(true);
             line.gameObject.name += Time.realtimeSinceStartup.ToString();
-            _allLines.Add(line);
+            _nowSelectLine = line;
+            return line;
         }
     }
 }

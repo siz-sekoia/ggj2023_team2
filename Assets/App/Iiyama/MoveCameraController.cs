@@ -15,7 +15,9 @@ namespace App
         {
             if (_targetObj == null) return;
 
-            transform.position = _targetObj.position;
+            var targetPos = _targetObj.position;
+            targetPos.z = transform.position.z;
+            transform.position = targetPos;
         }
     }
 }

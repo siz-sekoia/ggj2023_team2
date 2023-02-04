@@ -9,15 +9,22 @@ namespace App
         [SerializeField] private float Speed = 1f;
 
         // 移動ベクトル
-        private Vector3 vec;
+        public Vector3 vec;
 
-        private float _angle = -90f;
+        private readonly float _defultAngle = -90f;
         public Subject<Unit> OnAddPointObserver { get; set; }
 
-        // Start is called before the first frame update
+        private bool _isStop;
+        public float NowAngle;
+
+        /// <summary>
+        ///     角度指定して、移動速度設定 (0 = 下)
+        /// </summary>
         public void AddVec(float angle = 0f)
         {
-            var tangle = _angle + angle;
+            var tangle = _defultAngle + angle;
+            NowAngle = tangle;
+            Debug.Log(tangle);
             // 角度をラジアンに変換
             var rad = tangle * Mathf.Deg2Rad;
             // ラジアンから進行方向を設定
@@ -27,9 +34,16 @@ namespace App
             vec = direction * Speed;
         }
 
+        public void Stop()
+        {
+            _isStop = true;
+            gameObject.SetActive(false);
+        }
+
         // Update is called once per frame
         private void Update()
         {
+            if (_isStop) return;
             // 物体を移動する
             transform.position += vec;
         }

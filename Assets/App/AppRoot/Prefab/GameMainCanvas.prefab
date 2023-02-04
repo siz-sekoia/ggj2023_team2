@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &169958514
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -160, y: 16}
+  m_AnchoredPosition: {x: -799.99994, y: -510}
   m_SizeDelta: {x: 320, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &169958517
@@ -267,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2035904266}
   - component: {fileID: 2035904265}
+  - component: {fileID: 2035904267}
   m_Layer: 0
   m_Name: MoveCamera
   m_TagString: Untagged
@@ -337,6 +338,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &2035904267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035904263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f67460623646b9b44b5b2cddd008b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1531260825155555695
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae64c70bf447641b1bfe55a2d8988182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveCameraController: {fileID: 2035904267}
   _LinePrefab: {fileID: 1424415846853560824}
   _startPoint: {fileID: 1531260825578654933}
   _debugResultButton: {fileID: 169958515}
@@ -863,9 +877,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2057774379874237123, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
+      propertyPath: lineThickness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2057774379874237133, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: m_Name
       value: UI LineRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057774380123121240, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2057774380123121243, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: m_SizeDelta.x
