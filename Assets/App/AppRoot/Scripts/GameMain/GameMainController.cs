@@ -83,6 +83,9 @@ namespace App
         [SerializeField]
         GameObject resultView;
 
+        [SerializeField]
+        private InputField _apiInput;
+
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
@@ -108,6 +111,9 @@ namespace App
             _startButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
+                    if (string.IsNullOrEmpty(_apiInput.text))
+                        return;
+
                     IsStart = true;
                     IsGameOver = false;
 
@@ -126,6 +132,10 @@ namespace App
                     branchCounter.gameObject.SetActive(true);
                 })
                 .AddTo(this);
+
+            _apiInput.onValueChanged.AddListener(delegate {
+                _apiInput.text = GGJ2023APIController.Instance.chatGptApiKey;
+            });
         }
 
         private void Update()
