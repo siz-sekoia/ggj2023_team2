@@ -258,7 +258,7 @@ namespace App
                     }
                 }
 
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0) && isClicking)
                 {
                     // タップ開始時表示無効
                     foreach (var t in _allLines)
