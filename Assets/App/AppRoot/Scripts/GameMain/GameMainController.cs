@@ -200,7 +200,7 @@ namespace App
                             Debug.Log("Maxx" + max);
                             for (var i = 0; i < max; i++)
                             {
-                                if (_allLines[i].IsStop) continue;
+                                if (_allLines[i].IsStop || _allLines[i].IsOver) continue;
                                 transforms.Add(_allLines[i]);
                                 _allLines[i].SetPause(true);
                             }
