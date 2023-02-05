@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tapImage1: {fileID: 9069151794191192967}
   _tapImage2: {fileID: 5926632835795531713}
-  Speed: 0.05
+  Speed: 10
   vec: {x: 0, y: 0, z: 0}
   _isStop: 0
   IsOver: 0
