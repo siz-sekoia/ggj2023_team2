@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5995867916007840713}
   - component: {fileID: 9069151794191192967}
   - component: {fileID: 4254528369917311750}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 2057774379874237120}
   - component: {fileID: 2057774379874237123}
   - component: {fileID: 1876318606886967941}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: UI LineRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,6 +200,7 @@ MonoBehaviour:
   IsStop: 0
   IsPause: 0
   Index: 0
+  update: 0
 --- !u!1 &2057774380123121242
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +215,7 @@ GameObject:
   - component: {fileID: 2057774380123121246}
   - component: {fileID: 6123399647921449980}
   - component: {fileID: 8883179883046056564}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Point
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -351,7 +352,7 @@ GameObject:
   - component: {fileID: 1675348020565856682}
   - component: {fileID: 3848045556312059050}
   - component: {fileID: 4041444512353118454}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +488,7 @@ GameObject:
   - component: {fileID: 8103979276798628292}
   - component: {fileID: 5926632835795531713}
   - component: {fileID: 1372485352710181948}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
