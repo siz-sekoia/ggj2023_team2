@@ -167,7 +167,11 @@ namespace App
 
             if (IsAll)
             {
-                coolTimer -= Time.deltaTime;
+                if (!isClicking)
+                {
+                    coolTimer -= Time.deltaTime;
+                    if (coolTimer > 0f) Debug.Log($"CoolTime:{coolTimer}");
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (coolTimer <= 0f)
