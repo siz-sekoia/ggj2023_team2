@@ -28,6 +28,9 @@ public class Result : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textMeshPro;
 
+    [SerializeField]
+    private TextMeshProUGUI textScroll;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,5 +81,8 @@ public class Result : MonoBehaviour
     {
         textMeshPro.text = text;
     }
-
+    public void spButtonFunc()
+    {
+        OpenJTalk.Speak(textScroll.text);
+    }
 }
