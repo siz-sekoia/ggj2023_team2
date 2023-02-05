@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using Random = UnityEngine.Random;
 
 namespace App
 {
@@ -57,6 +60,14 @@ namespace App
         private float timer;
         public float checkTime = 0.1f;
 
+
+        public float coolTimer;
+        public float coolCheckTime = 5f;
+
+        public int nowClickCount;
+        public int clickCountLimit = 8;
+        
+
         public bool IsWaitClick = true;
 
         private int _currentPhase = 0;
@@ -64,7 +75,8 @@ namespace App
         public bool IsStart;
         public bool IsGameOver;
 
-        private float[] _getItemParamArray = new float[System.Enum.GetValues(typeof(GameDefine.ItemParamType)).Length];
+        private readonly float[] _getItemParamArray =
+            new float[Enum.GetValues(typeof(GameDefine.ItemParamType)).Length];
 
         private void Start()
         {
@@ -101,6 +113,10 @@ namespace App
                 {
                     IsStart = true;
                     IsGameOver = false;
+
+                    nowClickCount = 0;
+                    coolTimer = 0f;
+                    
                     _startButton.gameObject.SetActive(false);
 
                     // 開始時最初のポイント生成
@@ -133,30 +149,53 @@ namespace App
             var allActive = true;
             foreach (var line in _allLines)
             {
-                if (line.IsStop)
+                if (line.IsOver)
                     continue;
 
-                if (InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
+                if (!InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
                 {
+                    Debug.Log("Over Hit!");
+                    line.SetOver(true);
                 }
+            }
+
+            if (_allLines.Any(x => !x.IsOver))
+            {
+                Debug.Log("GameOver");
+                IsGameOver = true;
+                return;
             }
 
             if (IsAll)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    transforms.Clear();
-                    var max = _allLines.Count;
-                    Debug.Log("Maxx" + max);
-                    for (var i = 0; i < max; i++)
+                    coolTimer -= Time.deltaTime;
+                    if (coolTimer <= 0f)
                     {
-                        if (_allLines[i].IsStop) continue;
-                        transforms.Add(_allLines[i]);
-                        _allLines[i].SetPause(true);
+                        if (nowClickCount >= clickCountLimit)
+                        {
+                            Debug.Log("Over Click");
+                        }
+                        else
+                        {
+                            transforms.Clear();
+                            var max = _allLines.Count;
+                            Debug.Log("Maxx" + max);
+                            for (var i = 0; i < max; i++)
+                            {
+                                if (_allLines[i].IsStop) continue;
+                                transforms.Add(_allLines[i]);
+                                _allLines[i].SetPause(true);
+                            }
+
+                            Debug.Log("transforms:" + transforms.Count);
+                            isClicking = true;
+                            selectNum = 0;
+
+                            coolTimer = coolCheckTime;
+                        }
                     }
-                    Debug.Log("transforms:" + transforms.Count);
-                    isClicking = true;
-                    selectNum = 0;
                 }
 
                 if (isClicking && IsWaitClick)
@@ -311,7 +350,9 @@ namespace App
             var sum = 0f;
             for (var i = 0; i < 2; i++)
                 sum += Mathf.Pow(p[i] - c[i], 2);
-            return sum <= Mathf.Pow(r, 2f);
+            var res = sum <= Mathf.Pow(r, 2f);
+            Debug.Log($"p:{p} c:{c} r:{r}");
+            return res;
         }
 
         private void CalcItemParam(int itemType, float val)

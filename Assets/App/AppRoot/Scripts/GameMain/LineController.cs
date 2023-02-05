@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace App
         private int _nowIndex = 1;
         private bool initEnd;
 
+        public bool IsOver;
         public bool IsStop;
         public bool IsPause;
 
@@ -29,7 +31,7 @@ namespace App
             _text.SetText(num.ToString());
         }
 
-        public void Setup(int index, System.Action<int> nextPhseAction)
+        public void Setup(int index, Action<int> nextPhseAction)
         {
             Index = index;
             _points.Add(_pointController.transform.localPosition);
@@ -61,8 +63,16 @@ namespace App
             IsPause = enable;
         }
 
+
+        public void SetOver(bool enable)
+        {
+            _pointController.SetOver(enable);
+            IsOver = enable;
+        }
+
         private void Update()
         {
+            if (IsOver) return;
             if (IsPause) return;
             if (IsStop) return;
             if (!initEnd) return;

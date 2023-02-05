@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -15,12 +16,13 @@ namespace App
         public Subject<Unit> OnAddPointObserver { get; set; }
 
         public bool _isStop;
+        public bool IsOver;
         public bool IsPause;
         public float NowAngle;
 
-        private System.Action<int> _nextPhaseAction;
+        private Action<int> _nextPhaseAction;
 
-        public void Setup(System.Action<int> nextPhaseAction)
+        public void Setup(Action<int> nextPhaseAction)
         {
             _nextPhaseAction = nextPhaseAction;
         }
@@ -53,9 +55,15 @@ namespace App
             IsPause = enable;
         }
 
+        public void SetOver(bool enable)
+        {
+            IsOver = enable;
+        }
+
         // Update is called once per frame
         private void Update()
         {
+            if (IsOver) return;
             if (IsPause) return;
             if (_isStop) return;
             // 物体を移動する
