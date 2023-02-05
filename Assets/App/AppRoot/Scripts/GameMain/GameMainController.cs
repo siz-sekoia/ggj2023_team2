@@ -111,9 +111,6 @@ namespace App
             _startButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
-                    if (string.IsNullOrEmpty(_apiInput.text))
-                        return;
-
                     IsStart = true;
                     IsGameOver = false;
 
@@ -437,29 +434,40 @@ namespace App
 
         private string ReplaceItemParam()
         {
-            CheckMaxParamArrayNum();
-
             string ret = GameDefine.chatGptDefaultText;
+            resultView.SetActive(true);
 
-            ret = ret.Replace("[#0]", _getItemParamArray[0].ToString());
-            ret = ret.Replace("[#1]", _getItemParamArray[1].ToString());
-            ret = ret.Replace("[#2]", _getItemParamArray[2].ToString());
-            ret = ret.Replace("[#3]", _getItemParamArray[3].ToString());
-            ret = ret.Replace("[#4]", _getItemParamArray[4].ToString());
-            ret = ret.Replace("[#5]", _getItemParamArray[5].ToString());
-            ret = ret.Replace("[#6]", _getItemParamArray[6].ToString());
-            ret = ret.Replace("[#7]", _getItemParamArray[7].ToString());
+            if (string.IsNullOrEmpty(GGJ2023APIController.Instance.chatGptApiKey))
+            {
+                resultView.GetComponent<Result>().TextSetting(GameDefine.default_story);
 
-            Debug.Log(ret);
+            }
+            else
+            {
+                CheckMaxParamArrayNum();
 
-            ResultChatGPT(ret);
+                ret = ret.Replace("[#0]", _getItemParamArray[0].ToString());
+                ret = ret.Replace("[#1]", _getItemParamArray[1].ToString());
+                ret = ret.Replace("[#2]", _getItemParamArray[2].ToString());
+                ret = ret.Replace("[#3]", _getItemParamArray[3].ToString());
+                ret = ret.Replace("[#4]", _getItemParamArray[4].ToString());
+                ret = ret.Replace("[#5]", _getItemParamArray[5].ToString());
+                ret = ret.Replace("[#6]", _getItemParamArray[6].ToString());
+                ret = ret.Replace("[#7]", _getItemParamArray[7].ToString());
+
+                Debug.Log(ret);
+
+                ResultChatGPT(ret);
+            }
+
+
 
             return ret;
         }
 
         private async void ResultChatGPT(string prompt)
         {
-            resultView.SetActive(true);
+
 
             // ChatGPTのAPIを叩いて、レスポンス取得
             var response = await GGJ2023APIController.GetChatGPTAPIResponse(prompt, GGJ2023APIController.Instance.debugKey);
