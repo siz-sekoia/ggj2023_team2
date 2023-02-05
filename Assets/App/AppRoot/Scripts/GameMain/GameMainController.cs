@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -146,31 +145,31 @@ namespace App
                 return;
 
             // 範囲外判定
-            var allActive = true;
-            foreach (var line in _allLines)
-            {
-                if (line.IsOver)
-                    continue;
-
-                if (!InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
-                {
-                    Debug.Log("Over Hit!");
-                    line.SetOver(true);
-                }
-            }
-
-            if (_allLines.Any(x => !x.IsOver))
-            {
-                Debug.Log("GameOver");
-                IsGameOver = true;
-                return;
-            }
+            // var allActive = true;
+            // foreach (var line in _allLines)
+            // {
+            //     if (line.IsOver)
+            //         continue;
+            //
+            //     if (!InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
+            //     {
+            //         Debug.Log("Over Hit!");
+            //         line.SetOver(true);
+            //     }
+            // }
+            //
+            // if (_allLines.Any(x => !x.IsOver))
+            // {
+            //     Debug.Log("<color=red>GameOver</color>");
+            //     IsGameOver = true;
+            //     return;
+            // }
 
             if (IsAll)
             {
+                coolTimer -= Time.deltaTime;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    coolTimer -= Time.deltaTime;
                     if (coolTimer <= 0f)
                     {
                         if (nowClickCount >= clickCountLimit)
@@ -179,6 +178,7 @@ namespace App
                         }
                         else
                         {
+                            Debug.Log($"Click!! {nowClickCount}");
                             transforms.Clear();
                             var max = _allLines.Count;
                             Debug.Log("Maxx" + max);
