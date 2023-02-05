@@ -440,7 +440,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1531260825155555693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,11 +485,13 @@ MonoBehaviour:
   coolTimer: 0
   coolCheckTime: 5
   nowClickCount: 0
-  clickCountLimit: 8
+  clickCountLimit: 6
   IsWaitClick: 1
   IsStart: 0
   IsGameOver: 0
   AliveCount: 0
+  resultView: {fileID: 0}
+  _apiInput: {fileID: 0}
 --- !u!1 &1531260825578654934
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,12 +581,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64e8947deac8643628f46474b87b58ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tapImage1: {fileID: 0}
+  _tapImage2: {fileID: 0}
   Speed: 0
   vec: {x: 0, y: 0, z: 0}
   _isStop: 0
   IsOver: 0
   IsPause: 0
   NowAngle: 0
+  imageColorDuration: 1
 --- !u!1 &1769797365646054171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,6 +1495,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5017372813630808871}
     m_Modifications:
+    - target: {fileID: 1368409542768115927, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675348020565856682, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1876318606886967941, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: _text
       value: 
@@ -1601,6 +1614,10 @@ PrefabInstance:
     - target: {fileID: 2057774380123121246, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: Speed
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7865164824610218663, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}

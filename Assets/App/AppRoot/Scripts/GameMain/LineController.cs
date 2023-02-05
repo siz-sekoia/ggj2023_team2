@@ -26,6 +26,9 @@ namespace App
 
         public int Index;
 
+        int updateCount = 10;
+        public int update = 0;
+
         public void SetText(int num)
         {
             // テキストはもう使わない
@@ -71,7 +74,10 @@ namespace App
             _pointController.SetOver(enable);
             IsOver = enable;
         }
-
+		private void Start()
+		{
+            update = updateCount;
+        }
         private void Update()
         {
             if (IsOver) return;
@@ -79,7 +85,13 @@ namespace App
             if (IsStop) return;
             if (!initEnd) return;
             _uiLineRenderer.Points[_nowIndex] = _pointController.transform.localPosition;
-            _uiLineRenderer.SetAllDirty();
+
+            update--;
+            if (update < 0)
+            {
+                _uiLineRenderer.SetAllDirty();
+                update = updateCount;
+            }
         }
     }
 }
