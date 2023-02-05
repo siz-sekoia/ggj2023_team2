@@ -26,6 +26,9 @@ public class Result : MonoBehaviour
     [SerializeField]
     private Button twButton;
     [SerializeField]
+    private Button spButton;
+    
+    [SerializeField]
     private TextMeshProUGUI textMeshPro;
 
     [SerializeField]
@@ -53,6 +56,7 @@ public class Result : MonoBehaviour
                 titleButton.gameObject.SetActive(true);
                 buckButton.gameObject.SetActive(false);
                 twButton.gameObject.SetActive(false);
+                spButton.gameObject.SetActive(false);
                 break;
             case eView.Look:
                 Scroll.SetActive(false);
@@ -60,6 +64,7 @@ public class Result : MonoBehaviour
                 titleButton.gameObject.SetActive(false);
                 buckButton.gameObject.SetActive(true);
                 twButton.gameObject.SetActive(true);
+                spButton.gameObject.SetActive(true);
                 break;
         }
     }
@@ -83,6 +88,6 @@ public class Result : MonoBehaviour
     }
     public void spButtonFunc()
     {
-        OpenJTalk.Speak(textScroll.text);
+        OpenJTalk.Speak("Ç®ÇµÇ‹Ç¢ÅIÇ‹ÇΩÉvÉåÉCÇµÇƒÇÀ");
     }
 }

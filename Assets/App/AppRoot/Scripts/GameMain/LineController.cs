@@ -87,7 +87,7 @@ namespace App
             _uiLineRenderer.Points[_nowIndex] = _pointController.transform.localPosition;
 
             update--;
-            if (update < 0)
+            //if (update < 0)
             {
                 _uiLineRenderer.SetAllDirty();
                 update = updateCount;
