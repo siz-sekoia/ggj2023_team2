@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,8 +23,8 @@ namespace App
 
         [SerializeField] private ItemGenerator _itemGenerator;
 
-        [SerializeField] [Tooltip("判定中心")] private Vector2 _judgeCenter;
-        [SerializeField] [Tooltip("判定範囲")] private float _judgeR;
+        private readonly Vector2 _judgeCenter = new(0f, -24f);
+        private readonly float _judgeR = 530;
 
         [SerializeField] private Button _startButton;
         
@@ -75,19 +76,13 @@ namespace App
         public bool IsGameOver;
 
         private readonly float[] _getItemParamArray = { -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f };
+        public int AliveCount;
 
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
             pointData = new PointerEventData(EventSystem.current);
 
-            // // 開始時最初のポイント生成
-            // var line = PopNewPoint(_startPoint, transform);
-            // line.MoveStart(0f);
-            // _moveCameraController.SetTarget(line.Point.transform);
-            // _allLines.Add(line);
-            // PopNewPoint(_startPoint, transform, 45f);
-            
             SetEvent();
 
             IsStart = false;
@@ -144,25 +139,26 @@ namespace App
                 return;
 
             // 範囲外判定
-            // var allActive = true;
-            // foreach (var line in _allLines)
-            // {
-            //     if (line.IsOver)
-            //         continue;
-            //
-            //     if (!InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
-            //     {
-            //         Debug.Log("Over Hit!");
-            //         line.SetOver(true);
-            //     }
-            // }
-            //
-            // if (_allLines.Any(x => !x.IsOver))
-            // {
-            //     Debug.Log("<color=red>GameOver</color>");
-            //     IsGameOver = true;
-            //     return;
-            // }
+            var allActive = true;
+            foreach (var line in _allLines)
+            {
+                if (line.IsOver)
+                    continue;
+
+                if (!InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
+                {
+                    Debug.Log("<color=red>Over Hit!</color>");
+                    line.SetOver(true);
+                }
+            }
+
+            AliveCount = _allLines.Count > 0 ? _allLines.Count(x => !x.IsOver) : -1;
+            if (_allLines.Count > 0 && AliveCount <= 0)
+            {
+                Debug.Log("<color=red>GameOver</color>");
+                IsGameOver = true;
+                return;
+            }
 
             if (IsAll)
             {
@@ -226,6 +222,7 @@ namespace App
                     foreach (var p in transforms)
                     {
                         p.Stop();
+                        p.SetOver(true);
                         var select1 = PopNewPoint(p.Point.transform, transform);
                         var select2 = PopNewPoint(p.Point.transform, transform);
                         select1.MoveStart(angle + p.Point.NowAngle);
@@ -355,7 +352,7 @@ namespace App
             for (var i = 0; i < 2; i++)
                 sum += Mathf.Pow(p[i] - c[i], 2);
             var res = sum <= Mathf.Pow(r, 2f);
-            Debug.Log($"p:{p} c:{c} r:{r}");
+            Debug.Log($"<color=cyan>p:{p} c:{c} r:{r}</color> res:{res}");
             return res;
         }
 
