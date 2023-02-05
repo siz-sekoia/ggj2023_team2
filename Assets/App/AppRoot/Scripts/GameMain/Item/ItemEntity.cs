@@ -14,11 +14,12 @@ public class ItemEntity : MonoBehaviour
     /// </summary>
     /// <param name="paramType"></param>
     /// <param name="paramVal"></param>
-    public void Setup(float paramVal, int uniqueId, Action<int> delete)
+    public void Setup(float paramVal, int uniqueId, Action<int> delete, Action<int,float> calcItemParam)
     {
         _paramVal = paramVal;
         _uniqueId = uniqueId;
         _delete = delete;
+        _calcItemParam = calcItemParam;
         Debug.Log("アイテム生成！ ParamType : " + _paramType + " : ParamVal : " + _paramVal + " : UniqueId : " + _uniqueId);
 
         // 色変えなし
@@ -50,6 +51,7 @@ public class ItemEntity : MonoBehaviour
     /// </summary>
     public void ItemGet()
     {
+        _calcItemParam((int)_paramType, _paramVal);
         // エフェクト再生（なぜか出ない…）
         eff.EffectEvent();
         // SE再生
@@ -83,4 +85,5 @@ public class ItemEntity : MonoBehaviour
     private Image _itemImage;
 
     private Action<int> _delete;
+    private Action<int, float> _calcItemParam;
 }

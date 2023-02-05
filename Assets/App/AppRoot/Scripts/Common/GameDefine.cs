@@ -15,7 +15,7 @@ public class GameDefine
 
     public enum ItemParamType
     {
-        NONE,   // 初期値
+        NONE = -1,   // 初期値
         ENVIRONMENT,    // 環境
         GENDER, // 性別
         VILLAIN,    // 悪人善人
