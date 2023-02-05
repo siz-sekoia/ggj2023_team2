@@ -128,6 +128,7 @@ namespace App
 
                     _itemGenerator.Setup(CalcItemParam);
                     branchCounter.gameObject.SetActive(true);
+                    branchCounter.UpdateCounter(clickCountLimit);
                 })
                 .AddTo(this);
 
