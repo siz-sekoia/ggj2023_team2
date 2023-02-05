@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2035904266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -475,15 +475,13 @@ MonoBehaviour:
   _LinePrefab: {fileID: 1424415846853560824}
   _startPoint: {fileID: 1531260825578654933}
   _debugResultButton: {fileID: 169958515}
-  _itemGenerator: {fileID: 0}
-  _judgeCenter: {x: 0, y: 0}
-  _judgeR: 0
-  _startButton: {fileID: 869644850187357433}
-  branchCounter: {fileID: 0}
+  _itemGenerator: {fileID: 6540516851724239726}
+  _startButton: {fileID: 0}
+  branchCounter: {fileID: 4329380539620394048}
   ForceAngle: -1
   AngleRange: {x: 0, y: 60}
   AngleLimit: 90
-  checkTime: 0.1
+  checkTime: 0.01
   coolTimer: 0
   coolCheckTime: 5
   nowClickCount: 0
@@ -491,6 +489,7 @@ MonoBehaviour:
   IsWaitClick: 1
   IsStart: 0
   IsGameOver: 0
+  AliveCount: 0
 --- !u!1 &1531260825578654934
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +526,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 400}
+  m_AnchoredPosition: {x: 0, y: 500}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1531260825578654930
@@ -604,7 +603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5069899205942593842
 RectTransform:
   m_ObjectHideFlags: 0
@@ -881,7 +880,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -960, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &5096609191593566536
 GameObject:
@@ -1280,7 +1279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1611609984013778122
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1319,7 +1318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8072856417277541273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1360,7 +1359,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!1 &9015113691495121494
 GameObject:
@@ -1565,7 +1564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2057774379874237122, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 400
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2057774379874237122, guid: b96142640e3a94e0d81f3f3fdde2ca9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1681,6 +1680,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemGenerator
       objectReference: {fileID: 0}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _firstItemObjList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _thirdItemObjList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _fourthItemObjList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _secondItemObjList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _thirdItemObjList.Array.data[0]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: 7bc89d12f3097bd4ab92d973f2cd3ef1, type: 3}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _thirdItemObjList.Array.data[1]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: c778eeb70a4320441abdd824edf7916d, type: 3}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _fourthItemObjList.Array.data[0]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: e3cb4a807999d134eb5d46ec2db2264a, type: 3}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _fourthItemObjList.Array.data[1]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: ea42630a1dfb68e4c8206d577fde01b6, type: 3}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _secondItemObjList.Array.data[0]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: 151db0b07bf543f408f2e53f17414c83, type: 3}
+    - target: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+      propertyPath: _secondItemObjList.Array.data[1]
+      value: 
+      objectReference: {fileID: 7184514493143043446, guid: 580b66b21b468774ead707b267620c73, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
 --- !u!4 &6540516851724239721 stripped
@@ -1688,3 +1727,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 717597855562761730, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
   m_PrefabInstance: {fileID: 5994851987871253867}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6540516851724239726 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 717597855562761733, guid: 240e3bd88089af945a1b95328d3a9d51, type: 3}
+  m_PrefabInstance: {fileID: 5994851987871253867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5108df30686e44cb2b829ae0dacf04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

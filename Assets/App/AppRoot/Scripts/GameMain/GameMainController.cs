@@ -122,6 +122,7 @@ namespace App
                     _allLines.Add(line);
 
                     _itemGenerator.Setup(CalcItemParam);
+                    branchCounter.gameObject.SetActive(true);
                 })
                 .AddTo(this);
         }
@@ -163,6 +164,7 @@ namespace App
                 Debug.Log("<color=red>GameOver</color>");
                 ReplaceItemParam();
                 IsGameOver = true;
+                branchCounter.gameObject.SetActive(false);
                 return;
             }
 
