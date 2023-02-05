@@ -20,6 +20,11 @@ namespace App
 
         [SerializeField] private ItemGenerator _itemGenerator;
 
+        [SerializeField] [Tooltip("判定中心")] private Vector2 _judgeCenter;
+        [SerializeField] [Tooltip("判定範囲")] private float _judgeR;
+
+        [SerializeField] private Button _startButton;
+        
         public float ForceAngle = -1f;
         public Vector2 AngleRange = new(0, 45);
 
@@ -56,20 +61,26 @@ namespace App
 
         private int _currentPhase = 0;
 
+        public bool IsStart;
+        public bool IsGameOver;
+
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
             pointData = new PointerEventData(EventSystem.current);
 
-            // 開始時最初のポイント生成
-            var line = PopNewPoint(_startPoint, transform);
-            line.MoveStart(0f);
-            _moveCameraController.SetTarget(line.Point.transform);
-            _allLines.Add(line);
+            // // 開始時最初のポイント生成
+            // var line = PopNewPoint(_startPoint, transform);
+            // line.MoveStart(0f);
+            // _moveCameraController.SetTarget(line.Point.transform);
+            // _allLines.Add(line);
             // PopNewPoint(_startPoint, transform, 45f);
             
             SetEvent();
 
+            IsStart = false;
+            IsGameOver = false;
+            
             // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
         }
@@ -78,6 +89,22 @@ namespace App
         {
             _debugResultButton.OnClickAsObservable()
                 .Subscribe(_ => { SceneManager.LoadScene("Result"); })
+                .AddTo(this);
+
+            // スタートボタン
+            _startButton.OnClickAsObservable()
+                .Subscribe(_ =>
+                {
+                    IsStart = true;
+                    IsGameOver = false;
+                    _startButton.gameObject.SetActive(false);
+
+                    // 開始時最初のポイント生成
+                    var line = PopNewPoint(_startPoint, transform);
+                    line.MoveStart(0f);
+                    _moveCameraController.SetTarget(line.Point.transform);
+                    _allLines.Add(line);
+                })
                 .AddTo(this);
         }
 
@@ -89,6 +116,26 @@ namespace App
             // pointData.position = Input.mousePosition;
             // //RayCast（スクリーン座標）
             // EventSystem.current.RaycastAll(pointData, RayResult);
+
+            if (!IsStart)
+                // 未スタート時処理
+                return;
+
+            if (IsGameOver)
+                // ゲームオーバー時処理
+                return;
+
+            // 範囲外判定
+            var allActive = true;
+            foreach (var line in _allLines)
+            {
+                if (line.IsStop)
+                    continue;
+
+                if (InCircle(_judgeCenter, _judgeR, line.Point.transform.position))
+                {
+                }
+            }
 
             if (IsAll)
             {
@@ -245,6 +292,22 @@ namespace App
             // 次のフェーズのアイテム出現
             _itemGenerator.PhaseItemCreate(_currentPhase);
             Debug.Log(_currentPhase);
+        }
+
+        /// <summary>
+        ///     円の内側か
+        ///     (x - a)^2 + (y - b)^2 <= r^2
+        /// </summary>
+        /// <param name="p">円の中心座標</param>
+        /// <param name="r">半径</param>
+        /// <param name="c">対象となる点</param>
+        /// <returns></returns>
+        public static bool InCircle(Vector2 p, float r, Vector2 c)
+        {
+            var sum = 0f;
+            for (var i = 0; i < 2; i++)
+                sum += Mathf.Pow(p[i] - c[i], 2);
+            return sum <= Mathf.Pow(r, 2f);
         }
     }
 }
