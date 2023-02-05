@@ -194,6 +194,7 @@ namespace App
                             selectNum = 0;
 
                             coolTimer = coolCheckTime;
+                            nowClickCount++;
                         }
                     }
                 }
