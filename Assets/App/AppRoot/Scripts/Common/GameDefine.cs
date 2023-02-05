@@ -20,13 +20,9 @@ public class GameDefine
         GENDER, // 性別
         VILLAIN,    // 悪人善人
         EVENT,  // 出来事
-        EVENT_FIRST_RESULT, // 受け入れ方
         GOAL,   // 目的地
         HOW_TO_WARP,    // 方法
-        NECESSARY,  // 必要なもの
         DIFICCULT,  // 難易度
-        EVENT_SECOND_WARP,  // 達成度
-        CHANGE, //  変化
         EVALUATION  //評価
     }
 
@@ -36,5 +32,16 @@ public class GameDefine
     public const string DEEPL_ENDPOINT = "https://api-free.deepl.com/v2/translate?auth_key=";
     // ChatGPTのAPI Endpoint
     public const string CHAT_GPT_API_END_POINT = "https://api.openai.com/v1/completions";
+
+    public static string chatGptDefaultText
+    = "数字なしで[#0]の気候を持つ惑星の風景を描写する。" +
+    "数字なしでその惑星に住む[#1]の自分の性的正体生を持つ主人公の外見を描写する。" +
+    "数字なしで[#2]の価値観を持っている主人公の日常を描写する。" +
+    "数字なしでこの惑星で主人公に起きた[#3]出来事と旅を決心する。" +
+    "数字なしで主人公が[#4]の距離がある目的地に行きたい理由を説明する。" +
+    "数字なしで主人公が目的地まで旅する[#5]な方法を説明する。" +
+    "数字なしで主人公が目的地まで[#6]の難易度で旅する過程を描写する。" +
+    "数字なしでこの世界のことを見守っている世界樹が主人公に[#7]の評価をする理由を説明する。" +
+    "250文字以下ですべての答えに数字を使わないで教えて";
 
 }

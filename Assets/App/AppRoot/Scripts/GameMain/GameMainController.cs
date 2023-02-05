@@ -74,8 +74,7 @@ namespace App
         public bool IsStart;
         public bool IsGameOver;
 
-        private readonly float[] _getItemParamArray =
-            new float[Enum.GetValues(typeof(GameDefine.ItemParamType)).Length];
+        private readonly float[] _getItemParamArray = { -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f };
 
         private void Start()
         {
@@ -93,8 +92,6 @@ namespace App
 
             IsStart = false;
             IsGameOver = false;
-
-            _itemGenerator.Setup(CalcItemParam);
 
             // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
@@ -123,6 +120,8 @@ namespace App
                     line.MoveStart(0f);
                     _moveCameraController.SetTarget(line.Point.transform);
                     _allLines.Add(line);
+
+                    _itemGenerator.Setup(CalcItemParam);
                 })
                 .AddTo(this);
         }
@@ -135,7 +134,7 @@ namespace App
             // pointData.position = Input.mousePosition;
             // //RayCast（スクリーン座標）
             // EventSystem.current.RaycastAll(pointData, RayResult);
-
+            SiroinabaDebug();
             if (!IsStart)
                 // 未スタート時処理
                 return;
@@ -363,6 +362,42 @@ namespace App
         private void CalcItemParam(int itemType, float val)
         {
             _getItemParamArray[itemType] += val;
+        }
+
+        private void SiroinabaDebug()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ReplaceItemParam();
+            }
+        }
+
+        private void CheckMaxParamArrayNum()
+        {
+            for(int idx = 0; idx < _getItemParamArray.Length; idx++)
+            {
+                _getItemParamArray[idx] = Math.Max(_getItemParamArray[idx], 1.0f);
+            }
+        }
+
+        private string ReplaceItemParam()
+        {
+            CheckMaxParamArrayNum();
+
+            string ret = GameDefine.chatGptDefaultText;
+
+            ret = ret.Replace("[#0]", _getItemParamArray[0].ToString());
+            ret = ret.Replace("[#1]", _getItemParamArray[1].ToString());
+            ret = ret.Replace("[#2]", _getItemParamArray[2].ToString());
+            ret = ret.Replace("[#3]", _getItemParamArray[3].ToString());
+            ret = ret.Replace("[#4]", _getItemParamArray[4].ToString());
+            ret = ret.Replace("[#5]", _getItemParamArray[5].ToString());
+            ret = ret.Replace("[#6]", _getItemParamArray[6].ToString());
+            ret = ret.Replace("[#7]", _getItemParamArray[7].ToString());
+
+            Debug.Log(ret);
+
+            return ret;
         }
     }
 }

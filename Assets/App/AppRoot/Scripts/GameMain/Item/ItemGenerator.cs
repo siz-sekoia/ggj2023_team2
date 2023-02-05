@@ -6,12 +6,13 @@ public class ItemGenerator : MonoBehaviour
 {
     private void Start()
     {
-        PhaseItemCreate(0);
     }
 
     public void Setup(System.Action<int,float> action)
     {
         _calcItemParam = action;
+
+        PhaseItemCreate(0);
     }
 
     /// <summary>

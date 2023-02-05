@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb9acc826e75db409e09eee753f9744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paramType: 7
+  _paramType: 5
   _paramVal: 0
   eff: {fileID: 3895431366443592461}
   _itemImage: {fileID: 3509274937011066077}

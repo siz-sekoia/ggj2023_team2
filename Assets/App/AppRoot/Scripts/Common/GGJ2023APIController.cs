@@ -104,4 +104,7 @@ public class GGJ2023APIController : App.SingletonMonoBehaviour<GGJ2023APIControl
             public string text;
         }
     }
+
+    [SerializeField]
+    private string _debugApiKey = "";
 }
