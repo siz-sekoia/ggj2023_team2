@@ -372,6 +372,7 @@ namespace App
         {
             Debug.Log("PopNewPoint");
             var line = Instantiate(_LinePrefab, startTrans.position, startTrans.rotation, rootTrans);
+            line.gameObject.hideFlags = HideFlags.HideInHierarchy;
             line.Setup(indexCount, NextPhase);
             indexCount++;
             line.gameObject.SetActive(true);
