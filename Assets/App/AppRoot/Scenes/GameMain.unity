@@ -547,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9080583817652016349, guid: 9db9c241bcee35d41952db469176b035, type: 3}
       propertyPath: _debugApiKey
-      value: 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
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9db9c241bcee35d41952db469176b035, type: 3}
