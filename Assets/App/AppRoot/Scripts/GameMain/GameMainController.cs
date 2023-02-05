@@ -471,7 +471,7 @@ namespace App
 
 
             // ChatGPTのAPIを叩いて、レスポンス取得
-            var response = await GGJ2023APIController.GetChatGPTAPIResponse(prompt, GGJ2023APIController.Instance.debugKey);
+            var response = await GGJ2023APIController.GetChatGPTAPIResponse(prompt, GGJ2023APIController.Instance.chatGptApiKey);
             // レスポンスからテキスト取得
             string outputText = response.Choices.FirstOrDefault().Text;
 
