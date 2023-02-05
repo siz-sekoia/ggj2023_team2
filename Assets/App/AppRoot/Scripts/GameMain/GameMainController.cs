@@ -27,7 +27,8 @@ namespace App
         private readonly float _judgeR = 530;
 
         [SerializeField] private Button _startButton;
-        
+        [SerializeField] private BranchCounter branchCounter;
+
         public float ForceAngle = -1f;
         public Vector2 AngleRange = new(0, 45);
 
@@ -90,6 +91,7 @@ namespace App
 
             // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
+            branchCounter.UpdateCounter(clickCountLimit);
         }
 
         private void SetEvent()
@@ -230,6 +232,7 @@ namespace App
                         _allLines.Add(select1);
                         _allLines.Add(select2);
                     }
+                    branchCounter.UpdateCounter(clickCountLimit - nowClickCount);
                 }
             }
             else
