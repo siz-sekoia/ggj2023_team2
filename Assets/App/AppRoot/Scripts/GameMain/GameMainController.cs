@@ -64,6 +64,8 @@ namespace App
         public bool IsStart;
         public bool IsGameOver;
 
+        private float[] _getItemParamArray = new float[System.Enum.GetValues(typeof(GameDefine.ItemParamType)).Length];
+
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
@@ -80,7 +82,9 @@ namespace App
 
             IsStart = false;
             IsGameOver = false;
-            
+
+            _itemGenerator.Setup(CalcItemParam);
+
             // BGM再生
             AudioManager.Instance.PlayBGM("New_Horizon_2", volume: 0.2f);
         }
@@ -308,6 +312,11 @@ namespace App
             for (var i = 0; i < 2; i++)
                 sum += Mathf.Pow(p[i] - c[i], 2);
             return sum <= Mathf.Pow(r, 2f);
+        }
+
+        private void CalcItemParam(int itemType, float val)
+        {
+            _getItemParamArray[itemType] += val;
         }
     }
 }

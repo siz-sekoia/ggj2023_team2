@@ -9,6 +9,11 @@ public class ItemGenerator : MonoBehaviour
         PhaseItemCreate(0);
     }
 
+    public void Setup(System.Action<int,float> action)
+    {
+        _calcItemParam = action;
+    }
+
     /// <summary>
     /// アイテム生成処理
     /// </summary>
@@ -20,7 +25,7 @@ public class ItemGenerator : MonoBehaviour
         entity.transform.localPosition = pos;
 
         _itemMaxId++;
-        entity.Setup(itemVal, _itemMaxId, ListRemove);
+        entity.Setup(itemVal, _itemMaxId, ListRemove, _calcItemParam);
 
         _itemList.Add(entity);
     }
@@ -162,4 +167,5 @@ public class ItemGenerator : MonoBehaviour
     private List<ItemEntity> _itemList = new List<ItemEntity>();
     // アイテムに振っている最大のID
     private int _itemMaxId = -1;
+    private System.Action<int, float> _calcItemParam;
 }
