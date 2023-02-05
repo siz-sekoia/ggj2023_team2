@@ -1098,6 +1098,7 @@ MonoBehaviour:
   titleButton: {fileID: 8053821376878264626}
   buckButton: {fileID: 8053821376669709239}
   twButton: {fileID: 8053821377253846277}
+  spButton: {fileID: 7709139990804758553}
   textMeshPro: {fileID: 0}
   textScroll: {fileID: 8053821377487866556}
 --- !u!1 &8053821377412018115

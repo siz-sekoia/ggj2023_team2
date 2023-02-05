@@ -841,7 +841,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1323,6 +1323,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 433936079904240163, guid: ebb4420353a7feb4195645e6f1272f5f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 551
+      objectReference: {fileID: 0}
+    - target: {fileID: 433936079904240163, guid: ebb4420353a7feb4195645e6f1272f5f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -873
+      objectReference: {fileID: 0}
     - target: {fileID: 8053821376669709240, guid: ebb4420353a7feb4195645e6f1272f5f, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -268
