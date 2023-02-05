@@ -42,7 +42,7 @@ Material:
     - _Alpha: 1
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _intensity: 0.7
+    - _intensity: 1.06
     m_Colors:
-    - _Color: {r: 0.3443396, g: 0.7454493, b: 1, a: 0}
+    - _Color: {r: 0.504717, g: 0.8072251, b: 1, a: 0}
   m_BuildTextureStacks: []
