@@ -121,6 +121,7 @@ namespace App
                     coolTimer = 0f;
                     
                     _startButton.gameObject.SetActive(false);
+                    _apiInput.gameObject.SetActive(false);
 
                     // 開始時最初のポイント生成
                     var line = PopNewPoint(_startPoint, transform);
@@ -134,7 +135,7 @@ namespace App
                 .AddTo(this);
 
             _apiInput.onValueChanged.AddListener(delegate {
-                _apiInput.text = GGJ2023APIController.Instance.chatGptApiKey;
+                GGJ2023APIController.Instance.chatGptApiKey = _apiInput.text;
             });
         }
 
