@@ -9,7 +9,7 @@ public class GGJ2023APIController : App.SingletonMonoBehaviour<GGJ2023APIControl
 {
     // ChatGPT‚ÌAPIKey
     public string chatGptApiKey = "";
-    
+    public string debugKey{ get{ return _debugApiKey; } }
 
     /// <summary>
     /// API‚©‚çƒŒƒXƒ|ƒ“ƒXæ“¾

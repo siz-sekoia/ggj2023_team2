@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,9 @@ public class Result : MonoBehaviour
     private Button buckButton;
     [SerializeField]
     private Button twButton;
+    [SerializeField]
+    private TextMeshProUGUI textMeshPro;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,11 +67,16 @@ public class Result : MonoBehaviour
     }
     public void titleButtonnFunc()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Title");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameMain");
     }
     public void buckButtonFunc()
     {
         view = eView.Result;
+    }
+
+    public void TextSetting(string text)
+    {
+        textMeshPro.text = text;
     }
 
 }

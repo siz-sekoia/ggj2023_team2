@@ -79,6 +79,9 @@ namespace App
         private readonly float[] _getItemParamArray = { -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f };
         public int AliveCount;
 
+        [SerializeField]
+        GameObject resultView;
+
         private void Start()
         {
             //RaycastAllの引数PointerEvenDataを作成
@@ -158,6 +161,7 @@ namespace App
             if (_allLines.Count > 0 && AliveCount <= 0)
             {
                 Debug.Log("<color=red>GameOver</color>");
+                ReplaceItemParam();
                 IsGameOver = true;
                 return;
             }
@@ -397,7 +401,25 @@ namespace App
 
             Debug.Log(ret);
 
+            ResultChatGPT(ret);
+
             return ret;
+        }
+
+        private async void ResultChatGPT(string prompt)
+        {
+            resultView.SetActive(true);
+
+            // ChatGPTのAPIを叩いて、レスポンス取得
+            var response = await GGJ2023APIController.GetChatGPTAPIResponse(prompt, GGJ2023APIController.Instance.debugKey);
+            // レスポンスからテキスト取得
+            string outputText = response.Choices.FirstOrDefault().Text;
+
+            string result = "";
+            result = outputText.TrimStart('\n');
+            Debug.Log("CHAT_GPT  :  " + outputText);
+
+            resultView.GetComponent<Result>().TextSetting(outputText);
         }
     }
 }
