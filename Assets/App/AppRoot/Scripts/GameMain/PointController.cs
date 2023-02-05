@@ -1,11 +1,16 @@
 using System;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace App
 {
     public class PointController : MonoBehaviour
     {
+        [SerializeField] private Image _tapImage1;
+        [SerializeField] private Image _tapImage2;
+        
         // 速度
         [SerializeField] private float Speed = 1f;
 
@@ -21,10 +26,49 @@ namespace App
         public float NowAngle;
 
         private Action<int> _nextPhaseAction;
+        public float imageColorDuration = 1f; 
 
         public void Setup(Action<int> nextPhaseAction)
         {
             _nextPhaseAction = nextPhaseAction;
+        }
+
+        public void TapActive(bool enable)
+        {
+            // _tapImage1.gameObject.SetActive(enable);
+            // _tapImage2.gameObject.SetActive(enable);
+            // var c = _tapImage.color;
+            // c.a = 1f;
+            // _tapImage.color = c;
+            var c = _tapImage1.color;
+            c.a = enable ? 0.0f : 1.0f; // 初期値
+            _tapImage1.color = c;
+            _tapImage2.color = c;
+            var endValue = enable ? 1.0f : 0.0f;
+            DOTween.ToAlpha(
+                () => _tapImage1.color,
+                color => _tapImage1.color = color,
+                endValue, // 目標値
+                imageColorDuration // 所要時間
+            );
+            DOTween.ToAlpha(
+                () => _tapImage2.color,
+                color => _tapImage2.color = color,
+                endValue, // 目標値
+                imageColorDuration // 所要時間
+            );
+        }
+
+        public void Tapping(float fill)
+        {
+            var x = NowAngle;
+            Debug.Log($"NowAngle : {NowAngle}");
+            var normalizedAngle = Mathf.Repeat(x, 360);
+
+            _tapImage1.transform.rotation = Quaternion.Euler(0.0f, 0.0f, normalizedAngle);
+            _tapImage2.transform.rotation = Quaternion.Euler(0.0f, 0.0f, normalizedAngle);
+            _tapImage1.fillAmount = fill;
+            _tapImage2.fillAmount = fill;
         }
 
         /// <summary>

@@ -56,6 +56,7 @@ namespace App
         private int indexCount;
 
         private int selectNum;
+        private bool selectNumTurn;
         public int AngleLimit = 90;
 
         private float timer;
@@ -202,6 +203,17 @@ namespace App
 
                             coolTimer = coolCheckTime;
                             nowClickCount++;
+
+                            // タップ開始時表示有効
+                            foreach (var t in _allLines)
+                            {
+                                if (t.IsOver)
+                                    continue;
+
+                                t.Point.TapActive(true);
+                            }
+
+                            selectNumTurn = true;
                         }
                     }
                 }
@@ -212,17 +224,43 @@ namespace App
                     if (timer > checkTime)
                     {
                         timer = 0f;
-                        selectNum++;
-                        if (AngleLimit <= selectNum) selectNum = 0;
+                        if (selectNumTurn)
+                            selectNum++;
+                        else
+                            selectNum--;
+
+                        if (selectNum < 0)
+                        {
+                            selectNumTurn = !selectNumTurn;
+                            selectNum = 0;
+                        }
+                        else if (AngleLimit <= selectNum)
+                        {
+                            selectNumTurn = !selectNumTurn;
+                            selectNum = AngleLimit;
+                        }
 
                         foreach (var t in _allLines)
-                            if (!t.IsStop)
+                            if (!t.IsStop && !t.IsOver)
+                            {
                                 t.SetText(selectNum);
+                                var per = selectNum / 360f;
+                                t.Point.Tapping(per);
+                            }
                     }
                 }
 
                 if (Input.GetMouseButtonUp(0))
                 {
+                    // タップ開始時表示無効
+                    foreach (var t in _allLines)
+                    {
+                        if (t.IsOver)
+                            continue;
+
+                        t.Point.TapActive(false);
+                    }
+                    
                     isClicking = false;
                     Debug.Log("transforms c:" + transforms.Count + " al:" + _allLines.Count);
                     var angle = ForceAngle > 0f ? ForceAngle : Random.Range(AngleRange.x, AngleRange.y);

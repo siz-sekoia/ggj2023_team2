@@ -28,7 +28,9 @@ namespace App
 
         public void SetText(int num)
         {
+            // テキストはもう使わない
             _text.SetText(num.ToString());
+            _text.gameObject.SetActive(false);
         }
 
         public void Setup(int index, Action<int> nextPhseAction)
